@@ -6,11 +6,16 @@
 
 package controller;
 
+import constantes.DistribucionPolicial;
+import dao.DelitoDAO;
+import dao.TipodelitoDAO;
+import dao.TurnoDAO;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Delito;
 import model.Tipodelito;
-import dao.TipoDelitoDAO;
+import model.Turno;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -18,19 +23,21 @@ import org.springframework.web.servlet.mvc.Controller;
  *
  * @author Mariella
  */
-public class TipoDelitoController implements Controller{
+public class IndexController implements Controller {
     
+
     @Override
     public ModelAndView handleRequest(HttpServletRequest hsr, HttpServletResponse hsr1) throws Exception {
         ModelAndView mv= new ModelAndView("index");
+        List<Tipodelito> lstTipoDelitos= TipodelitoDAO.getAll();
+        mv.addObject("tipoDelitos",lstTipoDelitos);
+        List<Turno> lstTurnos= TurnoDAO.getAll();
+        mv.addObject("turnos",lstTurnos);
+        List<Delito> lstDelitos= DelitoDAO.getAll();
+        mv.addObject("delitos",lstDelitos);
         
-        try {
-            List<Tipodelito> lst= TipoDelitoDAO.getAll();
-            mv.addObject("tipoDelitos",lst);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        
+        
         return mv;
     }
-    
 }

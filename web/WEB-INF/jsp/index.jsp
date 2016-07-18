@@ -15,12 +15,31 @@
         <script>
         var latOrig=-12.117222;
         var lngOrig=-77.020556; 
-        var dif=0.00657;
+        //var lstDelitos=[['Primer delito','-12.117222',-77.020556,1]];
+        //var delitos=[];
+        var lstDelitos=[];
+            <c:forEach  items="${delitos}" var="delito" >
+                var delito=[];
+                delito.push(<c:out value="${delito.idDelito}"/>);
+                delito.push(<c:out value="${delito.latitud}"/>);
+                delito.push(<c:out value="${delito.longitud}"/>);
+                delito.push('<c:out value="${delito.tipodelito.nombre}"/>');
+                delito.push('<c:out value="${delito.turno.horaInicio}"/>'.concat("- ",'<c:out value="${delito.turno.horaFin}"/>'));
+                delito.push('<c:out value="${delito.fecha}"/>'.substring(0,10));
+                
+                lstDelitos.push(delito);
+                
+             </c:forEach>
+        var j;
+       
+         
+        //var dif=0.00657;
         var orig=new google.maps.LatLng(latOrig, lngOrig);
-        var origDown = new google.maps.LatLng(latOrig - dif, lngOrig);
-        var origRight = new google.maps.LatLng(latOrig, lngOrig-dif);
-        var origDownRight = new google.maps.LatLng(latOrig - dif, lngOrig-dif);
-        var marker;    
+        //var origDown = new google.maps.LatLng(latOrig - dif, lngOrig);
+        //var origRight = new google.maps.LatLng(latOrig, lngOrig-dif);
+        //var origDownRight = new google.maps.LatLng(latOrig - dif, lngOrig-dif);
+       
+        
             function initialize() {
               var mapProp = {
                 center:orig,
@@ -28,17 +47,13 @@
                 mapTypeId:google.maps.MapTypeId.ROADMAP
               };
               var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-              var marker=new google.maps.Marker({
-                      position:orig,
-                      animation:google.maps.Animation.BOUNCE
-                      });
-
-                    marker.setMap(map);
-              google.maps.event.addListener(marker,'click',function() {
-                  map.setCenter(marker.getPosition());
-                  });
-      
-              var mySector= [orig,origDown,origDownRight,origRight,orig]   ;
+              //var marker=new google.maps.Marker({
+              //        position:orig,
+              //        animation:google.maps.Animation.BOUNCE
+              //        });
+              //marker.setMap(map);
+              
+              /*var mySector= [orig,origDown,origDownRight,origRight,orig]   ;
               var flightPath=new google.maps.Polygon({
                   path:mySector,
                   strokeColor:"#0000FF",
@@ -48,13 +63,31 @@
                   fillOpacity:0.4
                   });
               flightPath.setMap(map);  
-              
-
-                google.maps.event.addListener(marker, 'click', function() {
-                  $('#crimeEdit').modal('show');
-                  });
+              */
+              var marker,i; 
+                 for (i = 0; i < lstDelitos.length; i++) {  
+                    
+                    marker = new google.maps.Marker({
+                      position: new google.maps.LatLng(lstDelitos[i][1], lstDelitos[i][2]),
+                      map: map
+                    });
+                    
+                    google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                      return function() {
+                        //infowindow.setContent(delitos[i][0]);
+                        $('#crimeView').modal('show');
+                        $("#crimeView #crime-type").html(lstDelitos[i][3]);
+                        $("#crimeView #turn").html(lstDelitos[i][4]);
+                        $("#crimeView #date").html(lstDelitos[i][5]);
+                      }
+                    })(marker, i));
+                    
+                      
+                  }
+                
                 google.maps.event.addListener(map, 'click', function() {
-                  $('#crimeNew').modal('show');
+                        $('#crimeNew').modal('show');
+                        
                   });  
 
             }
@@ -80,8 +113,8 @@
         <div id="googleMap" style="width:500px;height:380px;"></div>
         
                 
-       <!-- Modal delito editar --> 
-      <div class="modal fade" id="crimeEdit" role="dialog">
+       <!-- Modal delito ver --> 
+      <div class="modal fade" id="crimeView" role="dialog">
         <div class="modal-dialog">
 
           <!-- Modal content-->
@@ -114,6 +147,7 @@
                         <div class="col-md-3 col-sm-3"></div>
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Turno:</label>
                         <div class="col-md-3 col-sm-3 col-xs-12" id="turn">
+                        
                         </div>
                     </div>
                 </div>
@@ -150,6 +184,7 @@
                     <div class="form-group">
                         <div class="col-md-3 col-sm-3"></div>
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de delito:</label>
+                        <div class="col-md-3 col-sm-3">
                         <select>
                            <option value="0" label="--- Seleccione ---"/>
                            <c:forEach var="tipoDelito" items="${tipoDelitos}">
@@ -158,33 +193,45 @@
                                 </option>
                             </c:forEach>
                         </select>
-                       
+                        </div>    
                     </div>
                 </div>
-
+                 
                 <div class="row" style="margin-top: 10px;">
                     <div class="form-group">
                         <div class="col-md-3 col-sm-3"></div>
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha:</label>
                         <div class="col-md-3 col-sm-3 col-xs-12" id="date">
+                            <input id="date" type="date">
                         </div>
                     </div>
                 </div>
-                      
+              
                 <div class="row" style="margin-top: 10px;">
                     <div class="form-group">
                         <div class="col-md-3 col-sm-3"></div>
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Turno:</label>
-                        <div class="col-md-3 col-sm-3 col-xs-12" id="turn">
-                        </div>
+                        <div class="col-md-3 col-sm-3">
+                        <select>
+                           <option value="0" label="--- Seleccione ---"/>
+                           <c:forEach var="turno" items="${turnos}">
+                                <option  value="${turno.getIdTurno()}">
+                                    <c:out value="${turno.getHoraInicio()}"></c:out>
+                                </option>
+                            </c:forEach>
+                        </select>
+                        </div>    
+                       
                     </div>
-                </div>
+                </div>      
+
                 
                 <div class="row" style="margin-top: 10px;">
                     <div class="form-group">
                         <div class="col-md-3 col-sm-3"></div>
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Descripción:</label>
-                        <div class="col-md-3 col-sm-3 col-xs-12" id="description">
+                        <div class="col-md-3 col-sm-3 col-xs-12" >
+                            <input id="description" type="text">
                         </div>
                     </div>
                 </div>

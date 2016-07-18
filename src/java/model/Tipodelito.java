@@ -1,5 +1,5 @@
 package model;
-// Generated 14-jul-2016 1:18:20 by Hibernate Tools 3.6.0
+// Generated 17-jul-2016 22:55:21 by Hibernate Tools 3.6.0
 
 
 import java.util.HashSet;
@@ -11,28 +11,23 @@ import java.util.Set;
 public class Tipodelito  implements java.io.Serializable {
 
 
-     private int idTipoDelito;
+     private Integer idTipoDelito;
      private String nombre;
      private Set delitos = new HashSet(0);
 
     public Tipodelito() {
     }
 
-	
-    public Tipodelito(int idTipoDelito) {
-        this.idTipoDelito = idTipoDelito;
-    }
-    public Tipodelito(int idTipoDelito, String nombre, Set delitos) {
-       this.idTipoDelito = idTipoDelito;
+    public Tipodelito(String nombre, Set delitos) {
        this.nombre = nombre;
        this.delitos = delitos;
     }
    
-    public int getIdTipoDelito() {
+    public Integer getIdTipoDelito() {
         return this.idTipoDelito;
     }
     
-    public void setIdTipoDelito(int idTipoDelito) {
+    public void setIdTipoDelito(Integer idTipoDelito) {
         this.idTipoDelito = idTipoDelito;
     }
     public String getNombre() {

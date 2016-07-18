@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 14-jul-2016 1:18:20 by Hibernate Tools 3.6.0 -->
+<!-- Generated 17-jul-2016 22:55:22 by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="model.Tipodelito" table="tipodelito" catalog="bdistribucionpolicial">
-        <id name="idTipoDelito" type="int">
+        <id name="idTipoDelito" type="java.lang.Integer">
             <column name="idTipoDelito" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <property name="nombre" type="string">
             <column name="nombre" length="45" />

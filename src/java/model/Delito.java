@@ -1,5 +1,5 @@
 package model;
-// Generated 14-jul-2016 1:18:20 by Hibernate Tools 3.6.0
+// Generated 17-jul-2016 22:55:21 by Hibernate Tools 3.6.0
 
 
 import java.util.Date;
@@ -14,8 +14,8 @@ public class Delito  implements java.io.Serializable {
      private Turno turno;
      private Tipodelito tipodelito;
      private String descripcion;
-     private Integer latitud;
-     private Integer longitud;
+     private Double latitud;
+     private Double longitud;
      private Date fecha;
 
     public Delito() {
@@ -27,7 +27,7 @@ public class Delito  implements java.io.Serializable {
         this.turno = turno;
         this.tipodelito = tipodelito;
     }
-    public Delito(int idDelito, Turno turno, Tipodelito tipodelito, String descripcion, Integer latitud, Integer longitud, Date fecha) {
+    public Delito(int idDelito, Turno turno, Tipodelito tipodelito, String descripcion, Double latitud, Double longitud, Date fecha) {
        this.idDelito = idDelito;
        this.turno = turno;
        this.tipodelito = tipodelito;
@@ -65,18 +65,18 @@ public class Delito  implements java.io.Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    public Integer getLatitud() {
+    public Double getLatitud() {
         return this.latitud;
     }
     
-    public void setLatitud(Integer latitud) {
+    public void setLatitud(Double latitud) {
         this.latitud = latitud;
     }
-    public Integer getLongitud() {
+    public Double getLongitud() {
         return this.longitud;
     }
     
-    public void setLongitud(Integer longitud) {
+    public void setLongitud(Double longitud) {
         this.longitud = longitud;
     }
     public Date getFecha() {
